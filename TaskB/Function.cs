@@ -6,11 +6,14 @@ using System.Text;
 namespace TaskB
 {
     class Function
-    { 
-        static int ID = 0;
+    {   //Переменная, которая хранит последний ключ
+        public static int ID = 0;
+        //Коллекция, которая хранит ключи и объекты класса производителя
         public static Dictionary<int, Classes.Manufacturer> Manufacturers = new Dictionary<int, Classes.Manufacturer>();
+        //Объект класса для работы со списком сувениров
         public static CollectionClass collectionClass = new CollectionClass();
 
+        //Метод добавления объекта производителя в словарь
         public static void AddManufacturer(Classes.Manufacturer manufacturer)
             {
             Manufacturers.Add(++ID, manufacturer);
@@ -22,7 +25,6 @@ namespace TaskB
             Console.Write("Введите название сувенира: ");
             string souvenirName = Console.ReadLine();
            
-
             Console.Write("Введите год выпуска: ");
             int releaseDate;
             while (!int.TryParse(Console.ReadLine(), out releaseDate) || releaseDate > 2021)
@@ -36,24 +38,39 @@ namespace TaskB
                 Console.Write("Введите цену в формате 105,62 или 105: ");
             }
 
-            collectionClass.Add(new Classes.Souvenir(souvenirName, ID, releaseDate, price));
-
             Console.Write("Введите название производителя: ");
             string name = Console.ReadLine();
             Console.Write("Введите страну производителя: ");
             string country = Console.ReadLine();
             Console.WriteLine("--------------------------");
 
-            Classes.Manufacturer manufacturer = new Classes.Manufacturer(name, country);
-            AddManufacturer( manufacturer);
+            //Добавление производителя в словарь 
+            AddManufacturer(new Classes.Manufacturer(name, country));
+            //Добавление сувенира в список
+            collectionClass.Add(new Classes.Souvenir(souvenirName, ID, releaseDate, price));
         }
 
-       /*public static void AddToList(Classes.Souvenir souvenir)
-        {   
-                collectionClass[collectionClass.Length()] = souvenir;
-        }*/
-
-
+        //Метод для показа информации о сувенире по ключу
+        static void KeyMatchingForList(int key, ref bool flag)
+        {
+            foreach (Classes.Souvenir value in collectionClass)
+            {
+                if (value.ManufacturerRequisites == key)
+                {
+                    value.DisplayInformationSouvenir();
+                    flag = true;
+                }
+            }
+        }
+        //Метод для показа информации о производителю по ключу
+        static void KeyMatchingForDictionary(int key, ref bool flag)
+        {
+            if (Manufacturers.ContainsKey(key))
+            {
+                Manufacturers[key].DisplayInformationManufacturer();
+                flag = true;
+            }
+        }
 
         //Метод для вывода информации о сувенирах по названию производителя
         public static void DisplayInformationByManufacturer()
@@ -66,12 +83,13 @@ namespace TaskB
             //Механизм обработки исключительных ситуаций(если нет производителя с таким названием)
             try
             {
+                //Проход по элементам словаря
                 foreach(KeyValuePair<int, Classes.Manufacturer> keyValue in Manufacturers)
-                {
+                {//Проверка, есть ли такое название
                     if (keyValue.Value.ManufacturerName == name)
                 KeyMatchingForList( keyValue.Key, ref flag);
+                    //Вывод информации по ключу
                 }
-
                 if (!flag)
                     throw new Exception();
             }
@@ -92,10 +110,12 @@ namespace TaskB
             //Механизм обработки исключительных ситуаций(если нет страны с таким названием)
             try
             {
+                //Проход по элементам словаря
                 foreach (KeyValuePair<int, Classes.Manufacturer> keyValue in Manufacturers)
-                {
+                {//Проверка, есть ли такое название страны
                     if (keyValue.Value.ManufacturerCountry == country)
                 KeyMatchingForList(keyValue.Key, ref flag);
+                    //Вывод информации по ключу
                 }
                 if (!flag)
                     throw new Exception();
@@ -106,26 +126,7 @@ namespace TaskB
             }
 
         }
-        static void KeyMatchingForList(int key, ref bool flag)
-        {
-                foreach(Classes.Souvenir value in collectionClass)
-                { 
-                    if (value.ManufacturerRequisites == key)
-                    {
-                        value.DisplayInformationSouvenir();
-                        flag = true;
-                    }
-                }
-        }
-        static void KeyMatchingForDictionary( int key, ref bool flag)
-        {
-            if(Manufacturers.ContainsKey(key))
-            {
-                Manufacturers[key].DisplayInformationManufacturer();
-                flag = true;
-            }
-        }
-
+       
 
         //Метод для вывода информации о производителях, чьи цены на сувениры меньше заданной
         public static void DisplayInformationByPrice()
@@ -142,11 +143,13 @@ namespace TaskB
             //Механизм обработки исключительных ситуаций(если нет цены на сувениры меньше заданной)
             try
             {
+                //Проход по элементам списка
                 foreach (Classes.Souvenir value in collectionClass)
                 {
                     if(value.Price < price)
                     {
                         KeyMatchingForDictionary( value.ManufacturerRequisites, ref flag);
+                        //Вывод информации по ключу
                     }
 
                 }
@@ -172,16 +175,19 @@ namespace TaskB
             }
             bool flag = false;
             Console.WriteLine("Информация о производителях заданного сувенира, произведенного в заданном году: ");
+
             //Механизм обработки исключительных ситуаций(если нет сувенира с заданным названием и датой)
             try
             {
+                //Проход по элементам списка
                 foreach (Classes.Souvenir value in collectionClass)
                 {
+                    //Если подходит под условия
                     if (value.SouvenirName == souvenirName && value.ReleaseDate == releaseDate)
                     {
                         KeyMatchingForDictionary(value.ManufacturerRequisites, ref flag);
+                        //Вывод информации по ключу
                     }
-
                 }
                 if (!flag)
                     throw new Exception();
@@ -202,15 +208,18 @@ namespace TaskB
             //Механизм обработки исключительных ситуаций(если нет сувенира с заданным названием производителя)
             try
             {
+                //Проход по элементам словаря
                 foreach (KeyValuePair<int, Classes.Manufacturer> keyValue in Manufacturers)
-                {
+                {//Проверка, есть ли такое название
                     if (keyValue.Value.ManufacturerName == name)
                     {
+                        //Удаление элемента по ключу из словаря производителей
                         Manufacturers.Remove(keyValue.Key);
                         for (int i = 0; i < collectionClass.Length(); i++)
                         {
                             if(collectionClass[i].ManufacturerRequisites == keyValue.Key)
                             {
+                                //Удаление элемента по индексу из списка сувениров
                                 collectionClass.Remove(i);
                                 flag = true;
                             }

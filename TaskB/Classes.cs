@@ -39,9 +39,6 @@ namespace TaskB
                 Price = price;
                
             }
-            //Конструктор по умолчанию
-            public Souvenir()
-            { }
 
             public string Country { get; set; }
             public string SouvenirName { get; set; }
