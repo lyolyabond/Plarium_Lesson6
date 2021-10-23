@@ -1,4 +1,5 @@
 ﻿using System;
+using TaskB.SomeSouvenirs;
 
 //4. Сувениры.В сущностях(типах) хранится информация о сувенирах и их производителях.
 //Для сувениров необходимо хранить:
@@ -20,7 +21,6 @@ namespace TaskB
 {
     class Program
     {
-
         static void Main(string[] args)
         {
             Console.WriteLine("--Выберите действие: --");
@@ -31,22 +31,23 @@ namespace TaskB
             {
                 case 1:
                     Console.Clear();
-                    //Вызов метода с меню для консоли
+                    //Вызов метода меню для консоли
                     Menu.ConsoleMenu();
                     break;
 
                 case 2:
-                    //Добавление в список сувениров и в словарь произаодителей
-                    Function.collectionClass.Add(new Classes.Souvenir("монета", 1, 2006, 1006.26m));
-                    Function.AddManufacturer(new Classes.Manufacturer("Global", "Россия"));
-                    Function.collectionClass.Add( new Classes.Souvenir("статуэтка", 2, 2020, 105m));
-                    Function.AddManufacturer(new Classes.Manufacturer("UKR", "Украина"));
-                    Function.collectionClass.Add(new Classes.Souvenir("магнитик", 3, 2020, 12000m));
-                    Function.AddManufacturer(new Classes.Manufacturer("Global", "Украина"));
-                    //Установка значения статического поля в конечный ключ
-                    Function.ID = 3;
+                    //Добавление в список сувениров и в словарь производителей
+                    AddDelete.collectionClass.Add(new BusinessSouvenir("Ежедневник", "Plarium", 2021, 150m));
+                    AddDelete.AddManufacturer(new Manufacturer("Assa", "Украина"));
+                    AddDelete.collectionClass.Add( new PromotionalSouvenir("Ручка","ПриватБанк", 2020, 15.5m));
+                    AddDelete.AddManufacturer(new Manufacturer("UKR", "Украина"));
+                    AddDelete.collectionClass.Add(new ThematicSouvenir("Статуэтка","Новый год", 1999, 1200m));
+                    AddDelete.AddManufacturer(new Manufacturer("Global", "США"));
+                    AddDelete.collectionClass.Add(new VIPGift("Шкатулка", "Окончание проекта", 2019, 15000m));
+                    AddDelete.AddManufacturer(new Manufacturer("Global", "США"));
+                    
                     Console.Clear();
-                    //Вызов метода с меню для консоли
+                    //Вызов метода меню для консоли
                     Menu.ConsoleMenu();
                     break;
 

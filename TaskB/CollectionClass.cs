@@ -15,13 +15,13 @@ namespace TaskB
     class CollectionClass
     {
         //Список объектов класса сувенира
-        List<Classes.Souvenir> souvenirs;
+        List<Souvenir> souvenirs;
         public CollectionClass()
         {
-            souvenirs = new List<Classes.Souvenir>();
+            souvenirs = new List<Souvenir>();
         }
         //Индексатор по элементам коллекции
-        public Classes.Souvenir this[int index]
+        public Souvenir this[int index]
         {
             get 
             {//Возвращает объект класса по индексу в списке(если не пустой)
@@ -50,7 +50,7 @@ namespace TaskB
             souvenirs.RemoveAt(key);
         }
         //Метод добавления объекта в список
-        public void Add(Classes.Souvenir souvenir)
+        public void Add(Souvenir souvenir)
         {
             souvenirs.Add(souvenir);
         }
