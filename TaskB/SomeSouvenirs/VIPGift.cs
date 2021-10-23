@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TaskB.SomeSouvenirs
+namespace TaskB
 {
     class VIPGift : Souvenir
     {
