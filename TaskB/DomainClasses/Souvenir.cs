@@ -8,7 +8,7 @@ namespace TaskB
     abstract class Souvenir
     {
         //Инициализирующий конструктор
-        public Souvenir(string souvenirName, int releaseDate, decimal price)
+        protected Souvenir(string souvenirName, int releaseDate, decimal price)
         {
             SouvenirName = souvenirName;
             ReleaseDate = releaseDate;
