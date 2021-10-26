@@ -12,7 +12,7 @@ using System.Collections;
 namespace TaskB
 {
     //Коллекция сущностей(список) представлена в виде класса 
-    class CollectionClass 
+    class CollectionClass
     {
         //Список объектов класса сувенира
         List<Souvenir> souvenirs;
@@ -54,35 +54,5 @@ namespace TaskB
         {
             souvenirs.Add(souvenir);
         }
-        //Очищение списка
-        public void Clear()
-        {
-            souvenirs.Clear();
-        } 
-        //Сортировка списка по цене
-        public void SortByPrice()=> souvenirs.Sort(new ComparerByPrice());
-        //Сортировка списка по названию
-        public void SortBySouvenirName() => souvenirs.Sort(new ComparerBySouvenirName());
-
-        //Подписчик на событие ManufacturerRemoved - удаление производителя
-        //Метод при возникновении события удаления производителя, удаляет его сувениры
-        public void DeleteObjectsByKey (object source, EventDelegate.KeyEventArgs keyEventArgs)
-        {
-            bool flag = false;
-            for (int i = 0; i < this.Length(); i++)
-            {
-                if (this[i].ManufacturerRequisites == keyEventArgs.key)
-                {
-                    //Удаление элемента по индексу из списка сувениров
-                    this.Remove(i);
-                    flag = true;
-                }
-            }
-            if(flag)
-            {
-                Console.WriteLine($"Удаление сувенира с ID {keyEventArgs.key} прошло успешно!");
-            }
-        }
-
     }
 }
