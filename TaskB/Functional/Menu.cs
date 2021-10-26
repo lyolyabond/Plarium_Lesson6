@@ -8,6 +8,18 @@ namespace TaskB
     {
         public static void ConsoleMenu()
         {
+            Manufacturer eventDelete = new Manufacturer();
+            //Подписка на событие
+            eventDelete.ManufacturerRemoved += AddDelete.collectionClass.DeleteObjectsByKey;
+
+            bool flag = false;
+            //Делегат, который указывает на метод изменение цены
+            EventDelegate.PriceChangeDelegate priceChangeDelegate = Function.PriceChange;
+            //Добавление метода в делегат
+            priceChangeDelegate += Function.PriceChangeNotification;
+            //Делегат, который будет указывать на метод сортировки
+            EventDelegate.SortDelegate sortDelegate;
+            
             int choice;
             do
             {
@@ -17,7 +29,9 @@ namespace TaskB
                     " \n3 - Вывести информацию о производителях, чьи цены на сувениры меньше заданной " +
                     "\n4 - Вывести информацию о производителях заданного сувенира, произведенного в заданном году " +
                     "\n5 - Удалить заданного производителя и его сувениры \n6 - Вывести информацию о сувенирах " +
-                    "\n7 - выйти\n");
+                    "\n7 - Изменить цену сувенира по ID\n8 - Очистить все колекции" +
+                    "\n9 - Отсортировать список сувениров по цене\n10 - Отсортировать список сувениров по названию" +
+                    "\n11 - выйти\n");
                 choice = int.Parse(Console.ReadLine());
 
                 switch (choice)
@@ -44,32 +58,35 @@ namespace TaskB
                         break;
                     case 5:
                         Console.Clear();
-                        AddDelete.DeleteItemByManufacturer();
+                        AddDelete.DeleteItemByManufacturer(eventDelete);
                         break;
                     case 6:
                         Console.Clear();
-                        //Вывод информации обо всех сувенирах и их производителях
-                        if (AddDelete.collectionClass.Length() > 0)
-                        {
-                            foreach (Souvenir souvenir in AddDelete.collectionClass)
-                            {
-                                souvenir.DisplayInformationSouvenir();
-                                foreach (KeyValuePair<int, Manufacturer> keyValue in AddDelete.Manufacturers)
-                                {
-                                    //Если равны ключ и реквизиты производителя
-                                    if (keyValue.Key == souvenir.ManufacturerRequisites)
-                                    {
-                                        AddDelete.Manufacturers[keyValue.Key].DisplayInformationManufacturer();
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        else Console.WriteLine("Нет информации о сувенирах!");
+                        Function.DisplayAllInformation();
                         break;
+                    case 7:
+                        Console.Clear();
+                        priceChangeDelegate(ref flag);
+                        flag = false;
+                        break;
+                    case 8:
+                        Console.Clear();
+                        AddDelete.ClearCollections();
+                        break;
+                    case 9:
+                       Console.Clear();
+                        sortDelegate = AddDelete.collectionClass.SortByPrice;
+                        Function.SortList(sortDelegate);
+                        break;
+                    case 10:
+                        Console.Clear();
+                        sortDelegate = AddDelete.collectionClass.SortBySouvenirName;
+                        Function.SortList(sortDelegate);
+                        break;
+
                     default: break;
                 }
-            } while (choice != 7);
+            } while (choice != 11);
         }
 
         //Метод для выбора типа сувенира
@@ -116,39 +133,18 @@ namespace TaskB
         Souvenir souvenir = ChooseTypeOfSouvenir();
         if (souvenir != null)
         {
-            Console.Write("Введите название сувенира: ");
-            souvenir.SouvenirName = Console.ReadLine();
-
-            Console.Write("Введите год выпуска: ");
-            int releaseDate;
-            while (!int.TryParse(Console.ReadLine(), out releaseDate) || releaseDate > 2021)
-            {
-                Console.Write("Введите год в формате 2021: ");
-            }
-            souvenir.ReleaseDate = releaseDate;
-
-            Console.Write("Введите цену: ");
-            decimal price;
-            while (!decimal.TryParse(Console.ReadLine(), out price))
-            {
-                Console.Write("Введите цену в формате 105,62 или 105: ");
-            }
-            souvenir.Price = price;
-
-            Console.Write("Введите название производителя: ");
-            string name = Console.ReadLine();
-            Console.Write("Введите страну производителя: ");
-            string country = Console.ReadLine();
-            Console.WriteLine("--------------------------");
-
+            souvenir.SouvenirName = Input.InputSouvenirName();
+            souvenir.ReleaseDate = Input.InputReleaseDate();
+            souvenir.Price = Input.InputPrice();
 
             //Добавление сувенира в список
-            AddDelete.collectionClass.Add(souvenir);
+           AddDelete.collectionClass.Add(souvenir);
            //Добавление производителя в словарь 
-           AddDelete.AddManufacturer(new Manufacturer(name, country));
-            Console.Clear();
+           AddDelete.AddManufacturer(new Manufacturer(Input.InputManufacturerName(), Input.InputManufacturerCountry()));
+           Console.WriteLine("--------------------------");
+           Console.Clear();
         }
     }
-   
+        
    }
 }

@@ -19,10 +19,11 @@ namespace TaskB
             Manufacturers.Add(ID, manufacturer);
         }
         //Метод для удаления элементов массива по заданному названию производителя
-        public static void DeleteItemByManufacturer()
+        public static void DeleteItemByManufacturer(Manufacturer eventDelete)
         {
             Console.Write("Введите название производителя: ");
             string name = Console.ReadLine();
+            
             bool flag = false;
 
             //Механизм обработки исключительных ситуаций(если нет сувенира с заданным названием производителя)
@@ -35,28 +36,26 @@ namespace TaskB
                     {
                         //Удаление элемента по ключу из словаря производителей
                         Manufacturers.Remove(keyValue.Key);
-                        for (int i = 0; i < collectionClass.Length(); i++)
-                        {
-                            if (collectionClass[i].ManufacturerRequisites == keyValue.Key)
-                            {
-                                //Удаление элемента по индексу из списка сувениров
-                                collectionClass.Remove(i);
-                                flag = true;
-                            }
-                        }
+                        //Метод, который вызывает событие
+                        eventDelete.OnManufacturerRemoved(keyValue.Key);
+                        flag = true;
                     }
                 }
-                if (flag)
-                {
-                    Console.WriteLine("Удаление прошло успешно!");
-                }
-                else throw new Exception();
+                if(!flag)
+                 throw new Exception();
             }
             catch (Exception)
             {
                 Console.WriteLine($"Производителя с названием {name} нет в базе!");
             }
-
+    
         }
-    }
+        //Метод очищения коллекций
+        public static void ClearCollections()
+        {
+            collectionClass.Clear();
+            Manufacturers.Clear();
+            Console.WriteLine("Коллекции очищены.");
+        }
+    }   
 }
