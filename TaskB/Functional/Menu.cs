@@ -109,46 +109,22 @@ namespace TaskB
             }
         }
     
-
     //Метод ввода информации о сувенире
     public static void EnterInformation()
     {
         Souvenir souvenir = ChooseTypeOfSouvenir();
         if (souvenir != null)
         {
-            Console.Write("Введите название сувенира: ");
-            souvenir.SouvenirName = Console.ReadLine();
-
-            Console.Write("Введите год выпуска: ");
-            int releaseDate;
-            while (!int.TryParse(Console.ReadLine(), out releaseDate) || releaseDate > 2021)
-            {
-                Console.Write("Введите год в формате 2021: ");
-            }
-            souvenir.ReleaseDate = releaseDate;
-
-            Console.Write("Введите цену: ");
-            decimal price;
-            while (!decimal.TryParse(Console.ReadLine(), out price))
-            {
-                Console.Write("Введите цену в формате 105,62 или 105: ");
-            }
-            souvenir.Price = price;
-
-            Console.Write("Введите название производителя: ");
-            string name = Console.ReadLine();
-            Console.Write("Введите страну производителя: ");
-            string country = Console.ReadLine();
-            Console.WriteLine("--------------------------");
-
-
+            souvenir.SouvenirName = Input.InputSouvenirName();
+            souvenir.ReleaseDate = Input.InputReleaseDate();
+            souvenir.Price = Input.InputPrice();
+          
             //Добавление сувенира в список
             AddDelete.collectionClass.Add(souvenir);
-           //Добавление производителя в словарь 
-           AddDelete.AddManufacturer(new Manufacturer(name, country));
+            //Добавление производителя в словарь 
+            AddDelete.AddManufacturer(new Manufacturer(Input.InputManufacturerName(), Input.InputManufacturerCountry()));
             Console.Clear();
         }
     }
-   
    }
 }

@@ -31,8 +31,7 @@ namespace TaskB
         //Метод для вывода информации о сувенирах по названию производителя
         public static void DisplayInformationByManufacturer()
         {
-            Console.Write("Введите название производителя: ");
-            string name = Console.ReadLine();
+            string name = Input.InputManufacturerName();
             bool flag = false;
             Console.WriteLine("Информация о сувенирах заданного производителя: ");
             
@@ -58,8 +57,7 @@ namespace TaskB
         //Метод для вывода информации о сувенирах по названию страны производителя
         public static void DisplayInformationByCountry()
         {
-            Console.Write("Введите название страны: ");
-            string country = Console.ReadLine();
+            string country = Input.InputManufacturerCountry();
             bool flag = false;
             Console.WriteLine("Информация o сувенирах, произведенных в заданной стране: ");
             
@@ -86,12 +84,7 @@ namespace TaskB
         //Метод для вывода информации о производителях, чьи цены на сувениры меньше заданной
         public static void DisplayInformationByPrice()
         {
-            Console.Write("Введите цену: ");
-            decimal price;
-            while (!decimal.TryParse(Console.ReadLine(), out price))
-            {
-                Console.Write("Введите цену в формате: 105,62 or 105 ");
-            }
+            decimal price = Input.InputPrice();
             bool flag = false;
             Console.WriteLine("Информация o производителях, чьи цены на сувениры меньше заданной: ");
     
@@ -120,14 +113,8 @@ namespace TaskB
         //Метод для вывода информации о производителях заданного сувенира, произведенного в заданном году
         public static void DisplayInformationByDate()
         {
-            Console.Write("Введите название сувенира: ");
-            string souvenirName = Console.ReadLine();
-            Console.Write("Введите дату выпуска: ");
-            int releaseDate;
-            while (!int.TryParse(Console.ReadLine(), out releaseDate) || releaseDate > 2021)
-            {
-                Console.Write("Введите год в формате: 2021 ");
-            }
+            string souvenirName = Input.InputSouvenirName();
+            int releaseDate = Input.InputReleaseDate();
             bool flag = false;
             Console.WriteLine("Информация о производителях заданного сувенира, произведенного в заданном году: ");
 

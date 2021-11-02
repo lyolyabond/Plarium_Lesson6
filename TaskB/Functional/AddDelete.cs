@@ -18,11 +18,10 @@ namespace TaskB
         {
             Manufacturers.Add(ID, manufacturer);
         }
-        //Метод для удаления элементов массива по заданному названию производителя
+        //Метод для удаления элементов по заданному названию производителя
         public static void DeleteItemByManufacturer()
         {
-            Console.Write("Введите название производителя: ");
-            string name = Console.ReadLine();
+            string name = Input.InputManufacturerName();
             bool flag = false;
 
             //Механизм обработки исключительных ситуаций(если нет сувенира с заданным названием производителя)
